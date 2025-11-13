@@ -13,7 +13,7 @@ public class FileManager {
     private static final String HIGH_SCORES_FILE = "highscores.dat";
     private static final String SETTINGS_FILE = "game_settings.dat";
     private static final int MAX_HIGH_SCORES = 10;
-    private static final int POINTS_PER_FOOD = 100;
+
 
     private List<Score> highScores;
     private Properties settings;
@@ -25,12 +25,6 @@ public class FileManager {
         loadSettings();
     }
 
-    /**
-     * Calculate score based on foods eaten
-     */
-    public int calculateScore(int foodsEaten) {
-        return foodsEaten * POINTS_PER_FOOD;
-    }
 
     /**
      * Load high scores from file
@@ -77,8 +71,7 @@ public class FileManager {
      * Add a new score and update high scores list
      */
     public boolean addScore(String playerName, int foodsEaten) {
-        int scoreValue = calculateScore(foodsEaten);
-        Score newScore = new Score(playerName, scoreValue, foodsEaten);
+        Score newScore = new Score(playerName, foodsEaten);
 
         highScores.add(newScore);
         Collections.sort(highScores);
@@ -89,7 +82,7 @@ public class FileManager {
         }
 
         saveHighScores();
-        return isHighScore(scoreValue);
+        return isHighScore(foodsEaten);
     }
 
     /**
@@ -99,7 +92,7 @@ public class FileManager {
         if (highScores.size() < MAX_HIGH_SCORES) {
             return true;
         }
-        return score > highScores.get(highScores.size() - 1).getScore();
+        return score > highScores.get(highScores.size() - 1).getFoodsEaten();
     }
 
     /**
@@ -156,11 +149,11 @@ public class FileManager {
      * Initialize default high scores for demonstration
      */
     private void initializeDefaultHighScores() {
-        highScores.add(new Score("CHAMP", 1500, 15));
-        highScores.add(new Score("ACE", 1200, 12));
-        highScores.add(new Score("PRO", 900, 9));
-        highScores.add(new Score("ROOKIE", 600, 6));
-        highScores.add(new Score("NEWBIE", 300, 3));
+        highScores.add(new Score("CHAMP", 15));
+        highScores.add(new Score("ACE", 12));
+        highScores.add(new Score("PRO", 9));
+        highScores.add(new Score("ROOKIE", 6));
+        highScores.add(new Score("NEWBIE", 3));
         Collections.sort(highScores);
     }
 
@@ -173,12 +166,6 @@ public class FileManager {
         settings.setProperty("music_volume", "80");
     }
 
-    /**
-     * Get points per food constant
-     */
-    public int getPointsPerFood() {
-        return POINTS_PER_FOOD;
-    }
 
     /**
      * Clear all high scores (for testing/reset)

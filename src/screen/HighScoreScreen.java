@@ -62,11 +62,10 @@ public class HighScoreScreen extends JPanel {
         } else {
             for (int i = 0; i < scores.size(); i++) {
                 Score score = scores.get(i);
-                String display = String.format("%2d. %-30s %6d",
-                        i + 1, score.getPlayerName(), score.getScore());
+                //shows player name and foods eaten
+                String display = String.format("%2d. %-25s %3d foods",
+                        i + 1, score.getPlayerName(), score.getFoodsEaten());
                 listModel.addElement(display);
-                // Show foods eaten on second line
-                listModel.addElement(String.format("    %d foods eaten", score.getFoodsEaten()));
             }
         }
 
