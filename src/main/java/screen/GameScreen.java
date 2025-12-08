@@ -157,6 +157,7 @@ public class GameScreen implements Screen { // implementing screen base
     }
 
     public void onExit() {
+        soundManager.stopMove(); // ⬅️ extra safety: kill any move sound
         soundManager.stopBGM(); // stop background music when leaving screen
 
         // ensure no lingering visual effects

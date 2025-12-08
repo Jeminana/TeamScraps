@@ -73,6 +73,7 @@ public class GameOverScreen implements Screen, MouseListener {
 
         // make absolutely sure BGM is stopped when we arrive here
         core.getSound().stopBGM();
+        core.getSound().stopMove();   // ⬅️ optional extra safety
     }
 
     @Override
