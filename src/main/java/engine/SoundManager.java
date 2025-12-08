@@ -16,8 +16,7 @@ public class SoundManager {
 
     private Clip bgmClip;
 
-    private Clip moveClip;  // <--- add this
-
+    private Clip moveClip;
     private final String BGM_FILE  = "bgm.wav";
     private final String MOVE_FILE = "move.wav";
     private final String EAT_FILE  = "eat.wav";
