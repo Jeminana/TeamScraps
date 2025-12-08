@@ -176,6 +176,7 @@ log*
 
 # IntelliJ project files
 .idea/
+*.iml
 
 # IntelliJ build output
 out/
