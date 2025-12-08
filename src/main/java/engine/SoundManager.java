@@ -14,14 +14,13 @@ import java.net.URL;
  */
 public class SoundManager {
 
-    // Looping background music clip
     private Clip bgmClip;
 
-    // ------ File names ------
-    private final String BGM_FILE = "bgm.wav";
+    private Clip moveClip;
+    private final String BGM_FILE  = "bgm.wav";
     private final String MOVE_FILE = "move.wav";
-    private final String EAT_FILE = "eat.wav";
-    private final String HIT_FILE = "hit.wav";
+    private final String EAT_FILE  = "eat.wav";
+    private final String HIT_FILE  = "hit.wav";
 
 
     /** Play background BGM */
@@ -59,25 +58,34 @@ public class SoundManager {
     /** Play movement sound (boosted volume) */
     public void playMove() {
         try {
-            Clip clip = loadClip(MOVE_FILE);
+            if (moveClip == null) {
+                moveClip = loadClip(MOVE_FILE);
+                if (moveClip == null) return;
 
-            if (clip != null) {
-
-                // Increase volume for movement sound
+                // Set move volume once
                 try {
-                    FloatControl gain = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                    gain.setValue(+6.0f); // make movement sound louder
-                } catch (Exception ex) {
-                    // Some audio files may not support volume control — safe to ignore
-                }
-
-                clip.start();
+                    FloatControl gain = (FloatControl) moveClip.getControl(FloatControl.Type.MASTER_GAIN);
+                    gain.setValue(+6.0f);
+                } catch (Exception ignored) {}
             }
+
+            // restart from beginning (no overlap)
+            moveClip.stop();
+            moveClip.setFramePosition(0);
+            moveClip.start();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    public void stopMove() {
+        if (moveClip != null && moveClip.isRunning()) {
+            moveClip.stop();
+            moveClip.setFramePosition(0);
+        }
+    }
+
 
     /** Play eating sound (0.5 sec only) */
     public void playEat() {
